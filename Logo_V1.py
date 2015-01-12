@@ -2,6 +2,8 @@ import PIL
 import os.path  
 import PIL.ImageDraw
 def Apply_logo(original_image, percent_of_side):
+    directory = os.path.dirname(os.path.abspath(__file__))  
+    logo_file = os.path.join(directory, 'Monster_logo.png')
     width, height = original_image.size
     radius = int(percent_of_side * min(width, height)) # radius in pixels
     #you need to use the paste function to put imgages on to the mask
