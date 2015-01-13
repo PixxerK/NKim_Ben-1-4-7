@@ -1,29 +1,20 @@
 import PIL
 import os.path  
 import PIL.ImageDraw
-def Apply_logo(original_image, percent_of_side):
+def Apply_logo(original_image,logo_file):
     directory = os.path.dirname(os.path.abspath(__file__))  
     logo_file = os.path.join(directory, 'Monster_logo.png')
     width, height = original_image.size
-    radius = int(percent_of_side * min(width, height)) # radius in pixels
     #you need to use the paste function to put imgages on to the mask
     #top right corrner positioning
     #20 transparentcy on the mask
-    #
+    #Instead we're going to do a watermark.
+    #We're pasting the image that's a little transparent on top.
     #start with transparent mask
-    logo = PIL.Image.new('RGBA', (width, height), (127,0,127,0))
-    drawing_layer = PIL.ImageDraw.Draw(Apply_logo)
-    # Overwrite the RGBA values with A=255.
-    # The 127 for RGB values was used merely for visualizing the mask
+    logo = PIL.Image.new('RGBA', (width, height), (127,0,127,80))
+    original_image = PIL.ImageDraw.Draw(Apply_logo)
     
-    # Draw two rectangles to fill interior with opaqueness
-    drawing_layer.polygon([(radius,0),(width-radius,0),
-                            (width-radius,height),(radius,height)],
-                            fill=(127,0,127,255))
-    drawing_layer.polygon([(0,radius),(width,radius),
-                            (width,height-radius),(0,height-radius)],
-                            fill=(127,0,127,255))
-                         
+                          
     # Make the new image, starting with all transparent
     result = PIL.Image.new('RGBA', original_image.size, (0,0,0,0))
     result.paste(original_image, (0,0), mask=logo)
