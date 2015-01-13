@@ -1,24 +1,20 @@
 import PIL
 import os.path  
-import PIL.ImageDraw
-def Apply_logo(original_image,logo_file):
-    directory = os.path.dirname(os.path.abspath(__file__))  
-    logo_file = os.path.join(directory, 'Monster_logo.png')
-    width, height = original_image.size
-    #you need to use the paste function to put imgages on to the mask
-    #top right corrner positioning
-    #20 transparentcy on the mask
-    #Instead we're going to do a watermark.
-    #We're pasting the image that's a little transparent on top.
-    #start with transparent mask
-    logo = PIL.Image.new('RGBA', (width, height), (127,0,127,80))
-    original_image = PIL.ImageDraw.Draw(Apply_logo)
+import PIL.ImageDraw 
+def Apply_logo(img):
+    img = PIL.image.open('Monster_logo.png')
+    img = img.convert("RGBA")
+    datas = img.getdata
     
-                          
-    # Make the new image, starting with all transparent
-    result = PIL.Image.new('RGBA', original_image.size, (0,0,0,0))
-    result.paste(original_image, (0,0), mask=logo)
-    return result
+    newData = []
+    for item in datas:
+        if item[0] == 255 and item[1] == 255 and item[2] == 255:
+            newData.append((255, 255, 255, 80))
+        else:
+            newData.append(item)
+    img.putdata(newData)
+    img.save("Monster_logo2.png", "PNG")
+    
 def get_images(directory=None):
     if directory == None:
         directory = os.getcwd()
