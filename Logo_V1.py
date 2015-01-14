@@ -3,9 +3,8 @@ import os.path
 from PIL import Image, ImageDraw
 def Logo(original_image,logo):
     width, height = original_image.size
-    watermark = Image.new("RGBA",(width, height))
-    
-    result = PIL.Image.new('RGBA', original_image.size, (0,0,0,0))
+    watermark = Image.open(logo)
+    result = Image.new('RGBA', original_image.size, (0,0,0,50))
     result.paste(original_image, (0,0), mask=watermark)
     return result
 def get_images(directory=None):
