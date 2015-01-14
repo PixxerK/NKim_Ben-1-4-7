@@ -1,25 +1,26 @@
 import PIL
 import os.path  
-import PIL.ImageDraw 
-def Apply_logo(img):
-    img = PIL.image.open('Monster_logo.png')
-    img = img.convert("RGBA")
-    datas = img.getdata
+from PIL import Image, ImageDraw
+def Logo(original_image,logo):
+    width, height = original_image.size
+    watermark = Image.new("RGBA",(width, height))
     
-    newData = []
-    for item in datas:
-        if item[0] == 255 and item[1] == 255 and item[2] == 255:
-            newData.append((255, 255, 255, 80))
-        else:
-            newData.append(item)
-    img.putdata(newData)
-    img.save("Monster_logo2.png", "PNG")
-    
+    result = PIL.Image.new('RGBA', original_image.size, (0,0,0,0))
+    result.paste(original_image, (0,0), mask=watermark)
+    return result
 def get_images(directory=None):
+    """ Returns PIL.Image objects for all the images in directory.
+    
+    If directory is not specified, uses current directory.
+    Returns a 2-tuple containing 
+    a list with a  PIL.Image object for each image file in root_directory, and
+    a list with a string filename for each image file in root_directory
+    """
+    
     if directory == None:
-        directory = os.getcwd()
+        directory = os.getcwd() # Use working directory if unspecified
         
-    image_list = []
+    image_list = [] # Initialize aggregaotrs
     file_list = []
     
     directory_list = os.listdir(directory) # Get list of files
@@ -30,9 +31,17 @@ def get_images(directory=None):
             file_list += [entry]
             image_list += [image]
         except IOError:
-            pass
-    return image_list, file_list  
-def apply_logo_all_images(directory=None):
+            pass # do nothing with errors tying to open non-images
+    return image_list, file_list
+
+def Apply_logo(directory=None):
+    """ Saves a modfied version of each image in directory.
+    
+    Uses current directory if no directory is specified. 
+    Places images in subdirectory 'modified', creating it if it does not exist.
+    New image files are of type PNG and have transparent rounded corners.
+    """
+    
     if directory == None:
         directory = os.getcwd() # Use working directory if unspecified
         
@@ -52,7 +61,7 @@ def apply_logo_all_images(directory=None):
         filename, filetype = file_list[n].split('.')
         
         # Round the corners with radius = 30% of short side
-        new_image = Apply_logo(image_list[n])
+        new_image = Logo(image_list[n],'Monster_logo.png')
         #save the altered image, suing PNG to retain transparency
         new_image_filename = os.path.join(new_directory, filename + '.png')
         new_image.save(new_image_filename) 
