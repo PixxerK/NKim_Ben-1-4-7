@@ -1,20 +1,29 @@
 import PIL
 import os.path  
 from PIL import Image, ImageDraw
+def Transparency():
+    #make the picture for the watermark transparent first before applying
+    #the main function to apply the watermark to the images.
+    return
 def main():
     directory = os.path.dirname(os.path.abspath(__file__))  
     watermark_file = os.path.join(directory, 'watermark.png')  
     Original_File = os.path.join(directory, 'Fire.jpg')
+    
+    
     # opens the image
     main = Image.open(Original_File)
     secondary = Image.open(watermark_file)
     secondary.resize(main.size)
+
     #a mask is created
     watermark = Image.new("RGBA", main.size)
     #pastes the watermark onto the mask
     watermark.paste(secondary,(0,0))
     #makes the logo white and black
     watermask = watermark.convert("L").point(lambda x: min(x, 100))
+    
+    
     #makes the alpha
     watermark.putalpha(watermask)
     #pastes the watermark onto the original picture
