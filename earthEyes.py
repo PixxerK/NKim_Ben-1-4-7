@@ -9,7 +9,7 @@ import os.path
 
 # Open the files in the same directory as the Python script
 directory = os.path.dirname(os.path.abspath(__file__))  
-student_file = os.path.join(directory, 'student.jpg')
+student_file = os.path.join(directory, 'Logo.png')
 
 # Open and show the student image in a new Figure window
 student_img = PIL.Image.open(student_file)
@@ -24,9 +24,9 @@ axes[1].set_ylim(1100, 850)
 fig.show()
 
 # Open, resize, and display earth
-earth_file = os.path.join(directory, 'earth.png')
+earth_file = os.path.join(directory, 'Logo.Png')
 earth_img = PIL.Image.open(earth_file)
-earth_small = earth_img.resize((89, 87)) #eye width and height measured in plt
+earth_small = earth_img.resize(0,0,0,50) #eye width and height measured in plt
 fig2, axes2 = plt.subplots(1, 2)
 axes2[0].imshow(earth_img)
 axes2[1].imshow(earth_small)
@@ -34,7 +34,7 @@ fig2.show()
 
 # Paste earth into right eye and display
 # Uses alpha from mask
-student_img.paste(earth_small, (1162, 966), mask=earth_small) 
+student_img.paste(earth_small, (200, 200), mask=earth_small) 
 # Display
 fig3, axes3 = plt.subplots(1, 2)
 axes3[0].imshow(student_img, interpolation='none')
