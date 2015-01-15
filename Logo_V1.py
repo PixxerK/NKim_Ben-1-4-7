@@ -1,18 +1,6 @@
 import PIL
-from PIL import Image
 import os.path  
-<<<<<<< HEAD
 from PIL import Image, ImageDraw
-def Logo(original_image,logo):
-    width, height = original_image.size
-    watermark = Image.new("RGBA",(width, height))
-    
-    result = PIL.Image.new('RGBA', original_image.size, (0,0,0,0))
-    result.paste(original_image, (0,0), mask=watermark)
-    return result
-def get_images(directory=None):
-    """ Returns PIL.Image objects for all the images in directory.
-=======
 def main():
     directory = os.path.dirname(os.path.abspath(__file__))  
     watermark_file = os.path.join(directory, 'watermark.png')  
@@ -20,25 +8,18 @@ def main():
     # opens the image
     main = Image.open(Original_File)
     secondary = Image.open(watermark_file)
-    
-     # The Regular size
-    width, height = main.size
+    secondary.resize(main.size)
     #a mask is created
     watermark = Image.new("RGBA", main.size)
-    watermark.im.paste(watermark_file, None)
     #pastes the watermark onto the mask
->>>>>>> origin/master
-    
+    watermark.paste(secondary,(0,0))
     #makes the logo white and black
     watermask = watermark.convert("L").point(lambda x: min(x, 100))
     #makes the alpha
     watermark.putalpha(watermask)
     #pastes the watermark onto the original picture
     main.paste(watermark, None, watermark)
-    #saves the picture
-    main.save("watermarked.jpg", "JPEG")
     return main
-
 def get_images(directory=None):
 
     
@@ -58,3 +39,27 @@ def get_images(directory=None):
         except IOError:
             pass # do nothing with errors tying to open non-images
     return image_list, file_list
+def main_apply(directory=None):  
+    if directory == None:
+        directory = os.getcwd() # Use working directory if unspecified
+        
+    # Create a new directory 'modified'
+    new_directory = os.path.join(directory, 'modified')
+    try:
+        os.mkdir(new_directory)
+    except OSError:
+        pass # if the directory already exists, proceed  
+    
+    #load all the images
+    image_list, file_list = get_images(directory)  
+
+    #go through the images and save modified versions
+    for n in range(len(image_list)):
+        # Parse the filename
+        filename, filetype = file_list[n].split('.')
+        
+        # Round the corners with radius = 30% of short side
+        new_image = main()
+        #save the altered image, suing PNG to retain transparency
+        new_image_filename = os.path.join(new_directory, filename + '.png')
+        new_image.save(new_image_filename)    
