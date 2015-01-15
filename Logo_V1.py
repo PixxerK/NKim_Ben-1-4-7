@@ -1,18 +1,7 @@
 import PIL
 from PIL import Image
-import os.path  
-<<<<<<< HEAD
-<<<<<<< HEAD
+import os.path 
 from PIL import Image, ImageDraw
-def Logo(original_image,logo):
-    width, height = original_image.size
-    watermark = Image.open(logo)
-    result = PIL.Image.new('RGBA', original_image.size, (0,0,0,50))
-    result.paste(original_image, (0,0), mask=watermark)
-    return result
-def get_images(directory=None):
-    """ Returns PIL.Image objects for all the images in directory.
-=======
 def main():
     directory = os.path.dirname(os.path.abspath(__file__))  
     watermark_file = os.path.join(directory, 'watermark.png')  
@@ -27,25 +16,6 @@ def main():
     watermark = Image.new("RGBA", main.size)
     watermark.im.paste(watermark_file, None)
     #pastes the watermark onto the mask
->>>>>>> origin/master
-=======
-def main(image):
-     # Open the original image
-    main = Image.open(image)
-    Picture = Image.open('watermark.png')
-    watermark = Image.new("RGBA", main.size)
-    Image.resize(Picture)
-    watermark.paste = (Picture, 0,0)
->>>>>>> parent of 3485fdf... Logo V1.9
-    
-
-    watermask = watermark.convert("L").point(lambda x: min(x, 100))
-
-    watermark.putalpha(watermask)
- 
-    image.paste(watermark, None, watermark)
-    image.save("watermarked.jpg", "JPEG")
-
 def get_images(directory=None):
 
     
@@ -65,8 +35,6 @@ def get_images(directory=None):
         except IOError:
             pass # do nothing with errors tying to open non-images
     return image_list, file_list
-<<<<<<< HEAD
-=======
 
 def Apply_logo(directory=None):
     if directory == None:
@@ -84,4 +52,3 @@ def Apply_logo(directory=None):
         new_image = main(image_list[n])
         new_image_filename = os.path.join(new_directory, filename + '.png')
         new_image.save(new_image_filename) 
->>>>>>> parent of 3485fdf... Logo V1.9
