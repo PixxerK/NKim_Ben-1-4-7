@@ -1,6 +1,8 @@
 import PIL
 import os.path  
 from PIL import Image
+import Image
+
 def Transparency():
     img = Image.open('watermark.png')
     img = img.convert("RGBA")
@@ -16,28 +18,34 @@ def Transparency():
     img.putdata(newData)
     img.save("watermark2.png", "PNG")
     return
-def main():
+
+def waterM(pic):
     #can only apply to one photo at a time.
     directory = os.path.dirname(os.path.abspath(__file__))  
     watermark_file = os.path.join(directory, 'watermark2.png')
-    original_file = os.path.join(directory, 'Fire.jpg')
-
+    
     # opens the image
-    main = Image.open(original_file)
+    #mainImg = Image.open(pic)
     secondary = Image.open(watermark_file)
-    img2 = secondary.resize(main.size)
+    img2 = secondary.resize(pic.size)
+    
     #a mask is created
-    watermark = Image.new("RGBA", main.size)
+    watermark = Image.new("RGBA", pic.size)
+    
     #pastes the watermark onto the mask
     watermark.paste(img2,(0,0))
+    
     #makes the logo white and black
     watermask = watermark.convert("L").point(lambda x: min(x, 255))
     
     #makes the alpha
     watermark.putalpha(watermask)
+    
     #pastes the watermark onto the original picture
-    main.paste(watermark, None, watermark)
-    return main
+    result = PIL.Image.new('RGBA', pic.size, (0,0,0,0))
+    result.paste(pic, None, watermark)
+    return result
+
 def get_images(directory=None):
 
     
@@ -57,6 +65,7 @@ def get_images(directory=None):
         except IOError:
             pass # do nothing with errors tying to open non-images
     return image_list, file_list
+
 def main_apply(directory=None):  
     if directory == None:
         directory = os.getcwd() # Use working directory if unspecified
@@ -75,8 +84,8 @@ def main_apply(directory=None):
     for n in range(len(image_list)):
         # Parse the filename
         filename, filetype = file_list[n].split('.')
-        
-        new_image = main(image_list[n])
+        print image_list[n]
+        new_image = waterM(image_list[n])
         #save the altered image, suing PNG to retain transparency
         new_image_filename = os.path.join(new_directory, filename + '.png')
         new_image.save(new_image_filename)    
