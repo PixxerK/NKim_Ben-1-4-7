@@ -66,7 +66,7 @@ def get_images(directory=None):
             pass # do nothing with errors tying to open non-images
     return image_list, file_list
 
-def main_apply(directory=None):  
+def waterM_apply(directory=None):  
     if directory == None:
         directory = os.getcwd() # Use working directory if unspecified
         
