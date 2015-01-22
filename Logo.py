@@ -1,5 +1,6 @@
 import PIL
 import os.path  
+<<<<<<< HEAD:Logo.py
 from PIL import Image
 import Image
 
@@ -40,14 +41,37 @@ def waterM(pic):
     img2 = secondary.resize(pic.size)
     #this takes the images of the original pic and resizes the watermark to it
     
+=======
+from PIL import Image, ImageDraw
+def Transparency():
+    #make the picture for the watermark transparent first before applying
+    #the main function to apply the watermark to the images.
+    return
+def main():
+    directory = os.path.dirname(os.path.abspath(__file__))  
+    watermark_file = os.path.join(directory, 'watermark.png')  
+    Original_File = os.path.join(directory, 'Fire.jpg')
+    
+    
+    # opens the image
+    main = Image.open(Original_File)
+    secondary = Image.open(watermark_file)
+    secondary.resize(main.size)
+
+>>>>>>> parent of 886abbc... Logo v2.1:Logo_V1.py
     #a mask is created
     watermark = Image.new("RGBA", pic.size)
     
     #pastes the watermark onto the mask
+<<<<<<< HEAD:Logo.py
     watermark.paste(img2,(0,0))
     
+=======
+    watermark.paste(secondary,(0,0))
+>>>>>>> parent of 886abbc... Logo v2.1:Logo_V1.py
     #makes the logo white and black
-    watermask = watermark.convert("L").point(lambda x: min(x, 255))
+    watermask = watermark.convert("L").point(lambda x: min(x, 100))
+    
     
     #makes the alpha
     watermark.putalpha(watermask)
@@ -98,8 +122,14 @@ def waterM_apply(directory=None):
     for n in range(len(image_list)):
         # Parse the filename
         filename, filetype = file_list[n].split('.')
+<<<<<<< HEAD:Logo.py
         print image_list[n]
         new_image = waterM(image_list[n])
+=======
+        
+        # Round the corners with radius = 30% of short side
+        new_image = main()
+>>>>>>> parent of 886abbc... Logo v2.1:Logo_V1.py
         #save the altered image, suing PNG to retain transparency
         new_image_filename = os.path.join(new_directory, filename + '.png')
         new_image.save(new_image_filename)    
