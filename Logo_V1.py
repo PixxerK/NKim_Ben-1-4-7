@@ -5,14 +5,9 @@ from PIL import Image
 import Image
 
 def Transparency():
-    '''This makes the white pixels of a picture transparent. This helps to
-    make the future functionality of the watermark better.'''
     img = Image.open('watermark.png')
-    #opens the assigned watermark
     img = img.convert("RGBA")
-    #changes into RGBA to make it have a alpha channel
     datas = img.getdata()
-    #gets the RGBA values of the picture
 
     newData = []
     for item in datas:
@@ -20,12 +15,9 @@ def Transparency():
             newData.append((255, 255, 255, 0))
         else:
             newData.append(item)
-            #takes all the white pixels in the data and changes them into transparent
 
     img.putdata(newData)
-    #saves the data onto the item
     img.save("watermark2.png", "PNG")
-    #saves the picture
     return
 
 def waterM(pic):
@@ -33,13 +25,10 @@ def waterM(pic):
     directory = os.path.dirname(os.path.abspath(__file__))  
     watermark_file = os.path.join(directory, 'watermark2.png')
     
-    #mainImg = Image.open(pic) This was the problem
-    
+    # opens the image
+    #mainImg = Image.open(pic)
     secondary = Image.open(watermark_file)
-    #opens up the watermark file from the transparency function
-    
     img2 = secondary.resize(pic.size)
-    #this takes the images of the original pic and resizes the watermark to it
     
 =======
 from PIL import Image, ImageDraw
@@ -102,9 +91,6 @@ def get_images(directory=None):
     return image_list, file_list
 
 def waterM_apply(directory=None):  
-    ''' This function takes all the pictures and applies the watermark
-    that was made earlier. It takes all the pictures in the folder only however.
-    The directory needs to be changed via. the working directory.'''
     if directory == None:
         directory = os.getcwd() # Use working directory if unspecified
         
